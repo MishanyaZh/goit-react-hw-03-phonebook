@@ -18,8 +18,17 @@ class App extends Component {
     filter: '',
   };
 
-  componentDidUpdate(prevProps, prevState) {
-    console.log('componentDidUpdate');
+  componentDidMount() {
+    const parsedContacts = JSON.parse(localStorage.getItem('contacts'));
+    if (parsedContacts) {
+      this.setState({ contacts: parsedContacts });
+    }
+  }
+
+  componentDidUpdate(prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
   }
 
   changeFilter = event => {
